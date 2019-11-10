@@ -38,7 +38,9 @@ class Triangle extends Point{
 
     void setLength(int x, int y, int z){a = x; b = y; c = z;}
 
+    public static void main(String[] args) {
 
+    }
 }
 
 class Point{
