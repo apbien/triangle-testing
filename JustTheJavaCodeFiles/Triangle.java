@@ -52,6 +52,9 @@ class Point{
         return length;
     }
 }
+
+
+//Original code pulled from a previous project in order to test Maven
 /*
 
 import java.util.*;
