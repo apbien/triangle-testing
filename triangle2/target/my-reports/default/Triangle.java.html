@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Triangle.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Triangle2</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Triangle.java</span></div><h1>Triangle.java</h1><pre class="source lang-java linenums">/*
+Created by Alexander Bien
+PeoplSoft ID: 1516996
+Prof. Alipour
+*/
+import java.util.*;
+//created an enum to better label the type of triangle
+<span class="fc" id="L8">enum triType {</span>
+<span class="fc" id="L9">    equilateral, isosceles, scalene, right, none;</span>
+}
+
+//Triangle Class
+class Triangle extends Point{
+    Point p1,p2,p3;
+    int a,b,c;
+<span class="fc" id="L16">    public Triangle(){a = 1; b = 1; c = 1;}</span>
+<span class="fc" id="L17">    public Triangle(int x, int y, int z){ a = x; b =y; c = z;}</span>
+<span class="fc" id="L18">    public Triangle(int x1, int y1, int x2, int y2, int x3, int y3){</span>
+<span class="fc" id="L19">        p1 = new Point(x1,y1);</span>
+<span class="fc" id="L20">        p2 = new Point(x2,y2);</span>
+<span class="fc" id="L21">        p3 = new Point(x3,y3);</span>
+<span class="fc" id="L22">        a = p1.findLength(p2);</span>
+<span class="fc" id="L23">        b = p2.findLength(p3);</span>
+<span class="fc" id="L24">        c = p3.findLength(p1);</span>
+<span class="fc" id="L25">    }</span>
+    triType classify() {
+<span class="fc bfc" id="L27" title="All 6 branches covered.">        if (a &lt;= 0 || b &lt;= 0 || c &lt;= 0) return triType.none;</span>
+<span class="fc bfc" id="L28" title="All 4 branches covered.">        if (a == b &amp;&amp; b == c) return triType.equilateral;</span>
+<span class="fc bfc" id="L29" title="All 6 branches covered.">        if (a &gt;= b+c || c &gt;= b+a || b &gt;= a+c) return triType.none;</span>
+<span class="fc bfc" id="L30" title="All 6 branches covered.">        if (b==c || a==b || c==a) return triType.isosceles;</span>
+<span class="fc" id="L31">        return triType.scalene;</span>
+    }
+    double getArea(){
+<span class="fc" id="L34">        double s = (a+b+c)/2;</span>
+<span class="fc" id="L35">        double area = Math.sqrt(s*(s-a)*(s-b)*(s-c));</span>
+<span class="fc" id="L36">        return area;</span>
+    }
+
+<span class="fc" id="L39">    void setLength(int x, int y, int z){a = x; b = y; c = z;}</span>
+
+    public static void main(String[] args) {
+
+<span class="fc" id="L43">    }</span>
+}
+
+class Point{
+    int x,y;
+<span class="fc" id="L48">    Point(){x = 0; y = 0;}</span>
+<span class="fc" id="L49">    Point(int newX, int newY){x = newX; y = newY;}</span>
+    public int findLength(Point temp){
+<span class="fc" id="L51">        int length = (int) Math.sqrt((Math.pow(temp.x-this.x,2)+Math.pow(temp.y-this.y,2)));</span>
+<span class="fc" id="L52">        return length;</span>
+    }
+}
+/*
+
+import java.util.*;
+
+//Created an enum to better categorize the type of triangle
+enum triType
+{
+    equilateral, isosceles, scalene, right, none;
+}
+
+//Triangle Class
+public class Triangle extends Point {
+    Point pointA, pointB, pointC;
+    int lengthA, lengthB, lengthC; //These variables represent each side
+    triType type1, type2; //These variables represent the type of triangle (type2 denotes whether it is also a right triangle or none)
+
+    //Overloaded Constructor that takes in 3 arguments and sets them to the corresponding side and sets the types to none
+    Triangle(int lenA, int lenB, int lenC)
+    {
+        lengthA = lenA;
+        lengthB = lenB;
+        lengthC = lenC;
+        type1 = triType.none;
+        type2 = triType.none;
+
+        checkType();
+    }
+    Triangle(int Ax, int Ay,int Bx, int By,int Cx, int Cy)
+    {
+
+        pointA = new Point(Ax,Ay);
+        pointB = new Point(Bx,By);
+        pointC = new Point(Cx,Cy);
+        lengthA = pointA.findLength(pointB);
+        lengthB = pointB.findLength(pointC);
+        lengthC = pointC.findLength(pointA);
+        type1 = triType.none;
+        type2 = triType.none;
+
+    }
+
+    //Function that assigns type1 and type2 to the triangle types based on the sides
+    public void checkType(){
+        if(lengthA == lengthB &amp;&amp; lengthB == lengthC) {
+            type1 = triType.equilateral;
+        }
+        else if(lengthA == lengthB || lengthB == lengthC || lengthC == lengthA){
+            type1 = triType.isosceles;
+        }
+        else{
+            type1 = triType.scalene;
+        }
+
+        if(((Math.pow(lengthA,2) + Math.pow(lengthB,2)) == Math.pow(lengthC,2))||
+                ((Math.pow(lengthB,2) + Math.pow(lengthC,2)) == Math.pow(lengthA,2))||
+                ((Math.pow(lengthC,2) + Math.pow(lengthA,2)) == Math.pow(lengthB,2))){
+            type2 = triType.right;
+
+        }
+    }
+
+    //Function that can be called in main without a triangle object to see if the sides entered are legal
+    public static boolean checkLegalSides(int lenA, int lenB, int lenC){
+        boolean legal = true;
+        if(lenA &lt;= 0 || lenB &lt;= 0 || lenC &lt;= 0){ legal = false;}
+        if((lenA+lenB) &lt;= lenC){legal = false;}
+        if((lenB+lenC) &lt;= lenA){legal = false;}
+        if((lenC+lenA) &lt;= lenB){legal = false;}
+        return legal;
+    }
+
+    //Function to print the type of triangle as output
+    public void print() {
+        if (type2 == triType.none) {
+            System.out.println(&quot;You have a &quot; + type1 + &quot; triangle.&quot;);
+        } else {
+            System.out.println(&quot;You have a &quot; + type2 + &quot;, &quot; + type1 + &quot; triangle.&quot;);
+        }
+    }
+
+    public int getSide(String side){
+        if(side.equals(&quot;A&quot;)){return lengthA;}
+        else if(side.equals(&quot;B&quot;)){return lengthB;}
+        else{return lengthC;}
+    }
+    public double getArea(){
+        double s = (lengthA+lengthB+lengthC)/2;
+        s = s*(s-lengthA)*(s-lengthB)*(s-lengthC);
+        double area = Math.sqrt(s);
+        return area;
+    }
+    //main
+    public static void main(String args[]) {
+        while (true) {
+            int lenA, lenB, lenC;
+            int pointAx, pointAy, pointBx, pointBy, pointCx, pointCy;
+            Triangle newTriangle = null;
+            Scanner in = new Scanner(System.in);
+
+            System.out.println(&quot;\n__________Triangle Input Program__________&quot;);
+            System.out.println(&quot;1. Enter in Sides&quot;);
+            System.out.println(&quot;2. Enter in Points&quot;);
+            System.out.println(&quot;3. Quit&quot;);
+            System.out.println(&quot;User Choice: &quot;);
+            String x = in.next();
+            if(x.equals(&quot;3&quot;)){break;}
+
+            else if(x.equals(&quot;1&quot;)) {
+                System.out.println(&quot;Please enter an integer for Side A: &quot;);
+                lenA = in.nextInt();
+                System.out.println(&quot;Please enter an integer for Side B: &quot;);
+                lenB = in.nextInt();
+                System.out.println(&quot;Please enter an integer for Side C: &quot;);
+                lenC = in.nextInt();
+
+                if (checkLegalSides(lenA, lenB, lenC)) {
+                    newTriangle = new Triangle(lenA, lenB, lenC);
+                    newTriangle.print();
+                    System.out.println(&quot;Would you like to get the area?(y/n): &quot;);
+                    String choice;
+                    choice = in.next();
+                    if(choice.equals(&quot;y&quot;)){
+                        System.out.println(&quot;Your triangle's area is: &quot; + newTriangle.getArea());
+                    }
+                } else {
+                    System.out.println(&quot;Sorry, but the sides you have entered created an invalid triangle.&quot;);
+                }
+            }else if(x.equals(&quot;2&quot;)){
+                System.out.println(&quot;Please enter an x-coordinate for Point A: &quot;);
+                pointAx = in.nextInt();
+                System.out.println(&quot;Please enter an y-coordinate for Point A: &quot;);
+                pointAy = in.nextInt();
+                System.out.println(&quot;Please enter an x-coordinate for Point B: &quot;);
+                pointBx = in.nextInt();
+                System.out.println(&quot;Please enter an y-coordinate for Point B: &quot;);
+                pointBy = in.nextInt();
+                System.out.println(&quot;Please enter an x-coordinate for Point C: &quot;);
+                pointCx = in.nextInt();
+                System.out.println(&quot;Please enter an y-coordinate for Point C: &quot;);
+                pointCy = in.nextInt();
+
+                newTriangle = new Triangle(pointAx, pointAy, pointBx, pointBy, pointCx, pointCy);
+                if (checkLegalSides(newTriangle.getSide(&quot;A&quot;), newTriangle.getSide(&quot;B&quot;), newTriangle.getSide(&quot;C&quot;))) {
+                    newTriangle.checkType();
+                    newTriangle.print();
+                } else {
+                    System.out.println(&quot;Sorry, but the points you have entered created an invalid triangle.&quot;);
+                }
+                System.out.println(&quot;Would you like to get the area?(y/n): &quot;);
+                String choice;
+                choice = in.next();
+                if(choice.equals(&quot;y&quot;)){
+                    System.out.println(&quot;Your triangle's area is: &quot; + newTriangle.getArea());
+                }
+            }
+            else if(!x.equals(&quot;1&quot;)||!x.equals(&quot;2&quot;)){
+                System.out.println(&quot;Sorry, please try again.&quot;);
+                continue;
+            }
+        }
+    }
+}
+
+class Point{
+    int x,y;
+    Point(){x = 0; y = 0;}
+    Point(int newX, int newY){x = newX; y = newY;}
+    public int findLength(Point temp){
+        int length = (int) Math.sqrt((Math.pow(temp.x-this.x,2)+Math.pow(temp.y-this.y,2)));
+        return length;
+    }
+    public void setPoints(int newX, int newY){
+        this.x = newX; this.y = newY;
+    }
+}
+*/
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
